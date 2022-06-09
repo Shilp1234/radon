@@ -3,6 +3,8 @@ const AuthorModel = require("../models/authorModel")
 const BookModel= require("../models/authorModel")
 const mongoose = require('mongoose')
 
+/*-----------------------Include All Methods------------------------*/
+
 const createBook= async function (req, res) {
     let data= req.body
     let savedData= await BookModel.create(data)
@@ -12,10 +14,10 @@ const createBook= async function (req, res) {
 const createAuthor = async function(req,res){
     let data = req.body
     let savedData = await AuthorModel.create(data)
-    res,send({msg:savedData})
+    res.send({msg:savedData})
 }
 
-const getBooksByChetanBhaga = async function (req, res) {
+const getBooksByChetanBhagat = async function (req, res) {
     let data= await AuthorModel.find( {author_name : "Chetan Bhagat" }).select("author_id")
     console.log(data)
     let bookData = await BookModel.find({author_id: data[0].author_id})
@@ -28,11 +30,15 @@ let authorBooks = async function(req,res){
     let price=data.price
     res.send({msg:authorData,price})
 }
+
+
+/*----------------------Here,import the function-----------------------*/
  
 module.exports.createBook=createBook
 module.exports.createAuthor=createAuthor
-module.exports.getBooksByChetanBhaga=getBooksByChetanBhaga
+module.exports.getBooksByChetanBhagat=getBooksByChetanBhagat
 module.exports.authorBooks=authorBooks
+
 
 
 

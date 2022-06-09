@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const authorSchema = new mongoose.Schena({
+const authorSchema = new mongoose.Schema({
     author_id:{
         type : String,
         unique : true,
