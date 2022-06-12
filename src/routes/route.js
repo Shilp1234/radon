@@ -15,14 +15,10 @@ router.post("/createUser", UserController.createUser  )
 router.get("/getUsersData", UserController.getUsersData)
 
 router.post("/createBook", BookController.createBook  )
-
 router.post("/createAuthor", BookController.createAuthor)
-
 router.get("/getBooksByChetanBhagat", BookController.getBooksByChetanBhagat)
-
 router.get("/authorBooks", BookController.authorBooks)
-
 router.get("/booksByAuthorId",BookController.booksByAuthorId)
-router.get()
+router.get("/getAuthorByAge",BookController.getAuthorByAge)
 
 module.exports = router;
