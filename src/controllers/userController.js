@@ -114,9 +114,23 @@ const postMessage = async function (req, res) {
     //return the updated user document
     return res.send({status: true, data: updatedUser})
 }
+onst deleteUser = async function (req, res) {
+       
+        let userId = req.params.userId;
+        let user = await userModel.findById(userId);
+        let token=req.headers["x-auth-token"];
+        //Return an error if no user with the given id exists in the db
+        if (!user) {
+          return res.send("No such user exists");
+        }else if(!token) return res.status(400),send({status:false,msg:'Token dikha nhi hai to bhag'})
+      
+        //let userData = req.body;
+        let updatedUser = await userModel.findOneAndUpdate({ _id: userId },{isDeleted:"true"},{new:true});
+        res.send({ status: true, data: updatedUser});
+};
 
 module.exports.createUser = createUser;
 module.exports.getUserData = getUserData;
 module.exports.updateUser = updateUser;
-module.exports.loginUser = loginUser;
-module.exports.postMessage = postMessage
+module.exports.postMessage = postMessage;
+module.exports.deleteUser = deleteUser;
