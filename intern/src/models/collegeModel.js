@@ -22,7 +22,6 @@ const collegeSchema = new mongoose.Schema({
     },
 }, { timestamp: true })
 
-const College = new mongoose.model('College', collegeSchema);
-module.exports = Intern;
+module.exports = new mongoose.model('College', collegeSchema);
 
 // { name: { mandatory, unique, example iith}, fullName: {mandatory, example `Indian Institute of Technology, Hyderabad`}, logoLink: {mandatory}, isDeleted: {boolean, default: false} }

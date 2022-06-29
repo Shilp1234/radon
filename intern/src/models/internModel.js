@@ -9,23 +9,20 @@ const internSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        validate(value){
-            if(!validator.isEmail(value)){
-                throw new Error('Invalid Email')
-            }
-        },
         unique: [true, "Email already exists"],
     },
     mobile: { 
-        type: String, 
+        type: Number,
         required: true,
-        validate(value){
-            if(!validator.isMobilePhone(value)){
-                throw new Error('Invalid Mobile No.')
-            }
-        },
-        unique: [true, "Mobile No. already exists"],
+        // minLength:10,
+        // validate(value){
+        //     if(!validator.isMobilePhone(value)){
+        //         throw new Error('Invalid Mobile No.')
+        //     }
+        // },
+        unique: true,
     },
+
     collegeId: {
         type: mongoose.Types.ObjectId, 
         ref: 'College'
