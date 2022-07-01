@@ -30,7 +30,6 @@ const isValidNumber = function (value) {
 const createIntern = async function (req, res) {
   try {
     const { name, collegeId, isDeleted } = req.body; // Destructing Key and Values.
-    const requestedBody = req.body;
     const email = req.body.email.trim();
 
     if (!isValidReqBody(req.body))
@@ -38,23 +37,27 @@ const createIntern = async function (req, res) {
 
     if (!isValid(name))
       return res.status(400).send({ status: false, msg: "Intern name is required" })
+
     if (typeof (name) != 'string')
       return res.status(400).send({ status: false, msg: 'Characters are allowed only!' })
 
     if (!isValid(email))
       return res.status(400).send({ status: false, msg: 'Please Provide Intern Email Address' })
+
     if (!isValidEmail(email))
       return res.status(400).send({ status: false, msg: 'Please Provide Valid Email Address' })
 
     if (!req.body.mobile) return res.status(400).send({ status: false, message: "mobile is required" });
+
     let mobile = req.body.mobile
+
     if (!isValidNumber(mobile)) return res.status(400).send({ msg: `this mobile is not valid ::${mobile}` })
 
-
-    let checknumber = await internModel.findOne({ mobile: req.body.mobil })   /*Check Mobile From DB*/
+    let checknumber = await internModel.findOne({ mobile: req.body.mobile })   /*Check Mobile From DB*/
     if (checknumber) {
       return res.status(400).send({ status: false, msg: "Mobile Number Already Used" })
     }
+
     let isEmailExists = await internModel.find()
     let mailLength = isEmailExists.length;
     if (mailLength != 0) {
@@ -73,24 +76,19 @@ const createIntern = async function (req, res) {
         return res.status(400).send({ status: false, message: "This Mobile Number Already Exists in DB" })
       }
 
-      if (isDeleted === true) {
-        return res.status(400).send({ status: false, message: "You have to assigned false to isDeleted entry" })
-      }
-
-      let data ={ name, email, mobile, collegeId, isDeleted }
+      let data = { name, email, mobile, collegeId, isDeleted }
 
       const internData = await internModel.create(data);
-      const finalinternData = await internModel.findOneAndUpdate({ _id: internData._id }).select(
-        { isDeleted: 1, name: 1, email: 1, mobile: 1, collegeId: 1, _id: 0 })
+      const finalinternData = await internModel.findOne({ _id: internData._id }).select(
+         { isDeleted: 1, name: 1, email: 1, mobile: 1, collegeId: 1, _id: 0 })
       res.status(201).send({ status: true, message: "Intern Created Successfully", data: finalinternData })
     }
-  } catch (e) {
-    res.status(500).send({ status: false, message: e.message })
+  } catch (error) {
+    res.status(500).send({ status: false, message: error.message })
   }
 }
 
 /*********************************************[GET COLLEGE DETAILS]****************************************************************/
-
 const getCollegeDetails = async function (req, res) {
   try {
     let filter = req.query
