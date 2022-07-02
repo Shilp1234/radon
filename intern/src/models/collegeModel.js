@@ -7,10 +7,10 @@ const collegeSchema = new mongoose.Schema({
         unique: [true, "College name already exists"],
         trim:true
     },
-    fullName: {
+    fullname: {
         type: String,
         required: true,
-        unique: [true, "College name already exists"],
+       // unique: [true, "College name already exists"],
         trim:true
     },
     logoLink: { 

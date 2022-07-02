@@ -29,8 +29,8 @@ const isValidNumber = function (value) {
 
 const createIntern = async function (req, res) {
   try {
-    const { name, collegeId, isDeleted } = req.body; // Destructing Key and Values.
-    const email = req.body.email.trim();
+    const { name,collegeName,mobile,email,isDeleted } = req.body; // Destructing Key and Values.
+  
 
     if (!isValidReqBody(req.body))
       return res.status(400).send({ status: false, msg: 'Please Enter Intern Details' });
@@ -39,7 +39,7 @@ const createIntern = async function (req, res) {
       return res.status(400).send({ status: false, msg: "Intern name is required" })
 
     if (typeof (name) != 'string')
-      return res.status(400).send({ status: false, msg: 'Characters are allowed only!' })
+      return res.status(400).send({ status: false, msg: 'Characters are allowed only' })
 
     if (!isValid(email))
       return res.status(400).send({ status: false, msg: 'Please Provide Intern Email Address' })
@@ -49,8 +49,6 @@ const createIntern = async function (req, res) {
 
     if (!req.body.mobile) return res.status(400).send({ status: false, message: "mobile is required" });
 
-    let mobile = req.body.mobile
-
     if (!isValidNumber(mobile)) return res.status(400).send({ msg: `this mobile is not valid ::${mobile}` })
 
     let checknumber = await internModel.findOne({ mobile: req.body.mobile })   /*Check Mobile From DB*/
@@ -58,24 +56,38 @@ const createIntern = async function (req, res) {
       return res.status(400).send({ status: false, msg: "Mobile Number Already Used" })
     }
 
-    let isEmailExists = await internModel.find()
-    let mailLength = isEmailExists.length;
-    if (mailLength != 0) {
+    // let isEmailExists = await internModel.find()
+    // let mailLength = isEmailExists.length;
+    // if (mailLength != 0) {
 
-      const DuplicateEmail = await internModel.find({ email: email });
-      const emailGot = DuplicateEmail.length;
+    //   const DuplicateEmail = await internModel.find({ email: email });
+    //   const emailGot = DuplicateEmail.length;
 
-      if (emailGot != 0) {
-        return res.status(400).send({ status: false, message: "This Email Address Already Exists in DB" })
+    //   if (emailGot != 0) {
+    //     return res.status(400).send({ status: false, message: "This Email Address Already Exists in DB" })
+    //   }
+    //   const DuplicateMobile = await internModel.find({ mobile: mobile });
+    //   const duplicateMobLen = DuplicateMobile.length
+
+    //   if (duplicateMobLen != 0) {
+    //     return res.status(400).send({ status: false, message: "This Mobile Number Already Exists in DB" })
+    //   }
+
+      if(!isValid(req.body.collegeName))
+      {
+        return res.status(400).send({status: false, msg: 'Please Provide Intern College Name'})
       }
 
-      const DuplicateMobile = await internModel.find({ mobile: mobile });
-      const duplicateMobLen = DuplicateMobile.length
+      let collegeData = await collegeModel.findOne({name: req.body.collegeName.toLowerCase(),isDeleted:false})
 
-      if (duplicateMobLen != 0) {
-        return res.status(400).send({ status: false, message: "This Mobile Number Already Exists in DB" })
+     
+      if(!collegeData)
+      {
+        return res.status(400).send({status: false, message:"This College Name Does Not Exists"})
       }
-
+      let  collegeId = collegeData._id;
+      
+      
       let data = { name, email, mobile, collegeId, isDeleted }
 
       const internData = await internModel.create(data);
@@ -83,10 +95,11 @@ const createIntern = async function (req, res) {
          { isDeleted: 1, name: 1, email: 1, mobile: 1, collegeId: 1, _id: 0 })
       res.status(201).send({ status: true, message: "Intern Created Successfully", data: finalinternData })
     }
-  } catch (error) {
+   catch (error) {
     res.status(500).send({ status: false, message: error.message })
   }
 }
+
 
 /*********************************************[GET COLLEGE DETAILS]****************************************************************/
 const getCollegeDetails = async function (req, res) {
@@ -125,21 +138,3 @@ const getCollegeDetails = async function (req, res) {
 
 module.exports.getCollegeDetails = getCollegeDetails
 module.exports.createIntern = createIntern
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

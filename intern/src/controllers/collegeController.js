@@ -26,7 +26,7 @@ const createCollege = async function(req, res) {
 
     if(!nameRegex.test(name))  return res.status(400).send({status:false,msg:" name is required "})
 
-    if(!isValid(fullname)) return res.status(400).send({status:false,msg:" fullName is required"})
+    if(!isValid(fullname)) return res.status(400).send({status:false,msg:" fullname is required"})
     if(!isValid(logoLink)) return res.status(400).send({status:false,msg:"logoLink is required"})
     if(!validUrl.isWebUri(logoLink)) return res.status(400).send({status:false,msg:"logoLink url is invalid"})
     let findCollege = await collegeModel.findOne({name})
