@@ -4,6 +4,7 @@ const bookModel = require("../models/bookModel")
 const userModel = require("../models/userModel")
 const reviewModel = require("../models/reviewModel")
 const ObjectId = require('mongoose').Types.ObjectId;
+const { uploadFile } = require("../controller/awss3");
 
 
 // const isValidObjectId = function (objectId) { return mongoose.Types.ObjectId.isValid(objectId) }
@@ -69,7 +70,8 @@ const createBook = async function (req, res) {
         if (!regEx.test(category)) {
             return res.status(400).send({ status: false, msg: "category text is invalid" });
         }
-        // if all condition are passed create books data in data base
+
+         // if all condition are passed create books data in data base
         let data = await bookModel.create(bookData)
         return res.status(201).send({ status: true, data: data })
 

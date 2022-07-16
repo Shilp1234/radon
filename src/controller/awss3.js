@@ -1,5 +1,3 @@
-const express=require("express")
-const router=express.Router()
 const aws = require("aws-sdk");
 
 aws.config.update({
@@ -39,4 +37,4 @@ let uploadFile= async ( file) =>{
 
 
 
-module.exports={uploadFile,router}
+module.exports={uploadFile}

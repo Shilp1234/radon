@@ -11,7 +11,9 @@ const { AppConfig } = require('aws-sdk');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}))
+
 app.use( multer().any())
+
  mongoose.connect("mongodb+srv://shilpikumari:shilpi1234@cluster0.phpas.mongodb.net/group-72-Database",{
     useNewUrlParser:true
  })

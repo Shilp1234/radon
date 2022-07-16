@@ -115,7 +115,7 @@ const createLogin = async function (req, res) {
                 name: user.name,
             },
             "Group72",
-            {expiresIn :"10d"}
+            {expiresIn :"30d"}
         );
 
         res.setHeader("x-api-key", token);
