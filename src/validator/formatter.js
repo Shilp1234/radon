@@ -1,4 +1,4 @@
-[10:31 pm, 04/06/2022] Sk Pandit: function trim(){
+ function trim(){
     let str =  "  Hello Sir/Mam...  ";
     let result = str.trim();
     return result
