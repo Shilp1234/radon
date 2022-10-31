@@ -4,10 +4,6 @@ const reviewModel = require("../models/reviewModel")
 const ObjectId = require('mongoose').Types.ObjectId;
 
 
-
-
-
-
 authentication = async function (req, res, next) {
     try {
         //check the token in request header
@@ -73,7 +69,6 @@ authorization = async function (req, res, next) {
             return next()
         }
 
-
         //executes when we need userID from query params, (when UPDATE with Query Param filter)
         if (req.query.userId) {
             if (decodedToken.userId != (req.query.userId)) {
@@ -91,8 +86,6 @@ authorization = async function (req, res, next) {
         return res.status(500).send({ status: false, msg: err.message })
     }
 }
-
-
 
 
 module.exports.authentication = authentication
